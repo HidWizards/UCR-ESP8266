@@ -1,0 +1,30 @@
+#######################################
+# Syntax Coloring Map UCR ESP8266
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+UCR	KEYWORD1	UCR
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin	KEYWORD2
+update	KEYWORD2
+resetValues	KEYWORD2
+name	KEYWORD2
+addButton	KEYWORD2
+addAxis	KEYWORD2
+addDelta	KEYWORD2
+addEvent	KEYWORD2
+readButton	KEYWORD2
+readAxis	KEYWORD2
+readDelta	KEYWORD2
+readEvent	KEYWORD2
+lastUpdateMillis	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
