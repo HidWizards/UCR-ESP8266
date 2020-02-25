@@ -4,6 +4,12 @@
 #include <WiFiUdp.h>
 #include <ArduinoJson.h>
 
+#ifdef DEBUG 
+#define D(x) (x)
+#else 
+#define D(x) do{}while(0)
+#endif
+
 #define BUTTONS "Buttons"
 #define AXES "Axes"
 #define DELTAS "Deltas"
@@ -41,7 +47,7 @@ void UCR::begin()
 
 void UCR::setupWiFi() 
 {
-    Serial.println("Setup WiFi");
+    D(Serial.println("Setup WiFi"));
 
     if (strlen(_name) == 0) 
     {
@@ -52,8 +58,8 @@ void UCR::setupWiFi()
         strncpy(_hostString, _name, (sizeof(_hostString) - 1));
     }
 
-    Serial.print("Hostname: ");
-    Serial.println(_hostString);
+    D(Serial.print("Hostname: "));
+    D(Serial.println(_hostString));
 
     WiFi.hostname(_hostString);
     WiFi.mode(WIFI_STA);
@@ -62,7 +68,7 @@ void UCR::setupWiFi()
     while (WiFi.status() != WL_CONNECTED)
     {
         delay(250);
-        Serial.print(".");
+        D(Serial.print("."));
     }
 
     Serial.println();
@@ -180,7 +186,7 @@ bool UCR::receiveUdp()
         {
             incomingPacketBuffer[len] = 0;
         }
-        Serial.printf("UDP packet contents: %s\n", incomingPacketBuffer);
+        D(Serial.printf("UDP packet contents: %s\n", incomingPacketBuffer));
 
         // Parse packet
         StaticJsonDocument<500> request;
@@ -188,18 +194,17 @@ bool UCR::receiveUdp()
 
         if (error)
         {
-            Serial.print("deserializeMsgPack() failed: ");
-            Serial.println(error.c_str());
+            D(Serial.print("deserializeMsgPack() failed: "));
+            D(Serial.println(error.c_str()));
             return false;
         }
 
         int msgType = request["MsgType"];
 
-        Serial.println("Got good packet!");
-        Serial.print("MsgType: ");
-        Serial.println(msgType);
+        D(Serial.println("Got good packet!"));
+        D(Serial.print("MsgType: "));
+        D(Serial.println(msgType));
 
-        // Respond
         StaticJsonDocument<500> response;
         response["MsgType"] = msgType;
 
@@ -210,8 +215,8 @@ bool UCR::receiveUdp()
             addDescriptorList(&response, DELTAS, _deltaList, DELTA_COUNT);
             addDescriptorList(&response, EVENTS, _eventList, EVENT_COUNT);
 
-            serializeJsonPretty(response, Serial);
-            Serial.println();
+            D(serializeJsonPretty(response, Serial));
+            D(Serial.println());
         }
 
         if (msgType == 2)
