@@ -15,6 +15,14 @@ The following output types are supported by the library:
 
 
 
+## Installation
+
+The library requires the installation of Arduino core for ESP8266. The installation guide can be found here: https://github.com/esp8266/Arduino
+
+This library can then be installed from the Arduino library manager by going to `Tools > Manage libraries...` and searching for `UCR ESP8266` and clicking install. Make sure to install the dependency for `ArduinoJson` when prompted.
+
+
+
 ## Example usage
 
 ```c
